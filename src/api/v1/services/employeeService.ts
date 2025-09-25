@@ -9,6 +9,19 @@ export const getAllEmployees = async (): Promise<Employee[]> => {
 };
 
 /**
+ * Retrieves employee by ID
+ * @returns The employee that was retrieved or undefined if not found
+ */
+export const getEmployeeById = async (id: number): Promise<Employee | undefined> => {
+    for (const employee of employees){
+        if (employee.id === id){
+            return structuredClone(employee);
+        }
+    }
+    return undefined;
+};
+
+/**
  * Creates a new employee
  * @param employeeData - Only the fields needed to create an employee
  * @returns The created employee
