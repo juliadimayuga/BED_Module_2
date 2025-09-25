@@ -63,4 +63,4 @@ export const deleteBranch = async (id: number): Promise<string | undefined> => {
 
     branches.splice(index, 1);
     return "Branch deleted successfully.";
-}
+};

@@ -78,4 +78,4 @@ export const deleteEmployee = async (id: number): Promise<string | undefined> =>
 
     employees.splice(index, 1);
     return "Employee deleted successfully.";
-}
+};
