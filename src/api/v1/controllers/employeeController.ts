@@ -32,3 +32,22 @@ export const createEmployee = async (req: Request, res: Response
         res.status(500).json({ message: "Failed to create employee."})
     }
 };
+
+/**
+ * Retrieves all employees
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const getAllEmployees = async (req: Request, res: Response
+): Promise<void> => {
+    try{
+        const employees = await employeeService.getAllEmployees();
+        res.status(200).json({
+            message: "Retrieved all employees successfully.",
+            data: employees
+        });
+    }
+    catch (error){
+        res.status(500).json({message: "Failed to retrieve employees."});
+    }
+};
