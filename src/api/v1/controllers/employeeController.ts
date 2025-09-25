@@ -103,3 +103,25 @@ export const updateEmployee = async (req: Request, res: Response
         res.status(500).json({message: "Failed to update employee."});
     }
 };
+
+/**
+ * Deletes the employee specified
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const deleteEmployee = async (req: Request, res: Response
+): Promise<void> => {
+    try{
+        const {id} = req.params;
+        const deletedEmployee = await employeeService.deleteEmployee(Number(id));
+        if (deletedEmployee){
+            res.status(200).json({message: "Employee deleted successfully."});
+        }
+        else{
+            res.status(400).json({message: "Employee not found"})
+        }
+    }
+    catch (error){
+        res.status(500).json({message: "Failed to delete employee."});
+    }
+};
