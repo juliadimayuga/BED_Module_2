@@ -76,3 +76,30 @@ export const getEmployeeById = async (req: Request, res: Response
         res.status(500).json({message: "Failed to retrieve employee."})
     }
 };
+
+/**
+ * Updates the employee specified
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const updateEmployee = async (req: Request, res: Response
+): Promise<void> => {
+    try{
+        const {id} = req.params;
+        const updatedData = req.body;
+        const updatedEmployee = 
+            await employeeService.updateEmployee(Number(id), updatedData);
+        if (updatedEmployee){
+            res.status(200).json({
+                message: "Employee updated successfully.", 
+                data: updatedEmployee
+            });
+        }
+        else{
+            res.status(400).json({message: "Employee not found."})
+        }
+    }
+    catch (error){
+        res.status(500).json({message: "Failed to update employee."});
+    }
+};
