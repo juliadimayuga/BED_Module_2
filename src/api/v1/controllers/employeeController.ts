@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import * as employeeService from "../services/employeeService";
-import { Employee } from "src/data/employees";
 
 /**
  * Creates a new employee after validation
