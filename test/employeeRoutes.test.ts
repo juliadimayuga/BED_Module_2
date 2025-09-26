@@ -66,7 +66,7 @@ describe("Employee API Endpoints", () => {
 	});
 
     describe("GET /api/v1/employees/:id", () => {
-		it("should call getAll controller", async () => {
+		it("should call getEmployeeById controller", async () => {
             // Arrange
             const employeeId = 1;
 

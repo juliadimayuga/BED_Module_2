@@ -63,7 +63,7 @@ describe("Branch API Endpoints", () => {
 	});
 
     describe("GET /api/v1/branches/:id", () => {
-		it("should call getAll controller", async () => {
+		it("should call getBranchById controller", async () => {
             // Arrange
             const branchId = 1;
 
