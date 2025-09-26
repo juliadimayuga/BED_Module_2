@@ -99,3 +99,25 @@ export const updateBranch = async (req: Request, res: Response
         res.status(500).json({message: "Failed to update branch."});
     }
 };
+
+/**
+ * Deletes the branch specified
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const deleteBranch = async (req: Request, res: Response
+): Promise<void> => {
+    try{
+        const {id} = req.params;
+        const deletedBranch = await branchService.deleteBranch(Number(id));
+        if (deletedBranch){
+            res.status(200).json({message: "Branch deleted successfully."});
+        }
+        else{
+            res.status(400).json({message: "Branch not found"})
+        }
+    }
+    catch (error){
+        res.status(500).json({message: "Failed to delete branch."});
+    }
+};
