@@ -47,3 +47,28 @@ export const getAllBranches = async (req: Request, res: Response
         res.status(500).json({message: "Failed to retrieve branches."});
     }
 };
+
+/**
+ * Retrieves a branch by ID
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const getBranchById = async (req: Request, res: Response
+): Promise<void> => {
+    try{
+        const {id} = req.params;
+        const branch = await branchService.getBranchById(Number(id));
+        if (branch){
+            res.status(200).json({
+                message: "Branch retrieved successfully.",
+                data: branch
+            });
+        }
+        else{
+            res.status(400).json({message: "Branch not found."})
+        }
+    }
+    catch (error){
+        res.status(500).json({message: "Failed to retrieve branch."})
+    }
+};
