@@ -28,3 +28,22 @@ export const createBranch = async (req: Request, res: Response
         res.status(500).json({ message: "Failed to create branch."})
     }
 };
+
+/**
+ * Retrieves all branches
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const getAllBranches = async (req: Request, res: Response
+): Promise<void> => {
+    try{
+        const branches = await branchService.getAllBranches();
+        res.status(200).json({
+            message: "Retrieved all branches successfully.",
+            data: branches
+        });
+    }
+    catch (error){
+        res.status(500).json({message: "Failed to retrieve branches."});
+    }
+};
