@@ -25,7 +25,7 @@ export const createBranch = async (req: Request, res: Response
         });
     }
     catch (error){
-        res.status(500).json({ message: "Failed to create branch."})
+        res.status(500).json({ message: "Failed to create branch."});
     }
 };
 
@@ -65,11 +65,11 @@ export const getBranchById = async (req: Request, res: Response
             });
         }
         else{
-            res.status(400).json({message: "Branch not found."})
+            res.status(400).json({message: "Branch not found."});
         }
     }
     catch (error){
-        res.status(500).json({message: "Failed to retrieve branch."})
+        res.status(500).json({message: "Failed to retrieve branch."});
     }
 };
 
@@ -92,7 +92,7 @@ export const updateBranch = async (req: Request, res: Response
             });
         }
         else{
-            res.status(400).json({message: "Branch not found."})
+            res.status(400).json({message: "Branch not found."});
         }
     }
     catch (error){
@@ -114,7 +114,7 @@ export const deleteBranch = async (req: Request, res: Response
             res.status(200).json({message: "Branch deleted successfully."});
         }
         else{
-            res.status(400).json({message: "Branch not found"})
+            res.status(400).json({message: "Branch not found"});
         }
     }
     catch (error){
