@@ -28,7 +28,7 @@ export const createEmployee = async (req: Request, res: Response
         });
     }
     catch (error){
-        res.status(500).json({ message: "Failed to create employee."})
+        res.status(500).json({ message: "Failed to create employee."});
     }
 };
 
@@ -68,11 +68,11 @@ export const getEmployeeById = async (req: Request, res: Response
             });
         }
         else{
-            res.status(400).json({message: "Employee not found."})
+            res.status(400).json({message: "Employee not found."});
         }
     }
     catch (error){
-        res.status(500).json({message: "Failed to retrieve employee."})
+        res.status(500).json({message: "Failed to retrieve employee."});
     }
 };
 
@@ -95,7 +95,7 @@ export const updateEmployee = async (req: Request, res: Response
             });
         }
         else{
-            res.status(400).json({message: "Employee not found."})
+            res.status(400).json({message: "Employee not found."});
         }
     }
     catch (error){
@@ -117,10 +117,64 @@ export const deleteEmployee = async (req: Request, res: Response
             res.status(200).json({message: "Employee deleted successfully."});
         }
         else{
-            res.status(400).json({message: "Employee not found"})
+            res.status(400).json({message: "Employee not found"});
         }
     }
     catch (error){
         res.status(500).json({message: "Failed to delete employee."});
+    }
+};
+
+/**
+ * Retrieves all employees from a branch
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const getAllEmployeesFromBranch = async (req: Request, res: Response
+): Promise<void> => {
+    try{
+        const {branchId} = req.params;
+
+        if (!branchId){
+            res.status(400).json({message: "Branch not found."});
+            return;
+        }
+        const employeesFromBranch = await employeeService.getAllEmployeesFromBranch(Number(branchId));
+        if (employeesFromBranch){
+             res.status(200).json({
+                message: "Employees retrieved successfully.",
+                data: employeesFromBranch
+             });
+        }
+    }
+    catch (error){
+        res.status(500).json({message: "Failed to retrieve employees."});
+    }
+};
+
+/**
+ * Retrieves all employees from a department
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const getAllEmployeesFromDepartment = async (req: Request, res: Response
+): Promise<void> => {
+    try{
+        const {department} = req.params;
+
+        if (!department){
+            res.status(400).json({message: "Department not found."});
+            return;
+        }
+        const employeesFromDepartment = await employeeService.getAllEmployeesFromDepartment(department);
+        if (employeesFromDepartment){
+             res.status(200).json({
+                message: "Employees retrieved successfully.",
+                data: employeesFromDepartment
+             });
+        }
+    }
+    catch (error){
+        res.status(500).json({message: "Failed to retrieve employees."});
     }
 };
