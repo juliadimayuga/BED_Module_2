@@ -50,16 +50,6 @@ describe("Branch API Endpoints", () => {
             //Assert
 			expect(controller.getAllBranches).toHaveBeenCalled();
 		});
-
-        it("should return 400 when ID parameter is missing", async () => {
-            //Arrange missing ID parameter
-
-            //Act
-            const response = await request(app).get("/api/v1/branches/");
-
-            //Assert
-            expect(response.status).toBe(400);
-        });
 	});
 
     describe("GET /api/v1/branches/:id", () => {
@@ -74,11 +64,10 @@ describe("Branch API Endpoints", () => {
 			expect(controller.getBranchById).toHaveBeenCalled();
 		});
 
-        it("should return 400 when ID parameter is missing", async () => {
-            //Arrange missing ID parameter
-
+        it("should return 400 when ID parameter is invalid", async () => {
+            //Arrange invalid ID parameter
             //Act
-            const response = await request(app).get("/api/v1/branches/");
+            const response = await request(app).get("/api/v1/branches/100");
 
             //Assert
             expect(response.status).toBe(400);
@@ -125,15 +114,14 @@ describe("Branch API Endpoints", () => {
             //Assert
 			expect(controller.deleteBranch).toHaveBeenCalled();
 		});
+
+        it("should return 400 when ID parameter is invalid", async () => {
+            //Arrange invalid ID parameter
+            //Act
+            const response = await request(app).delete("/api/v1/branches/100");
+
+            //Assert
+            expect(response.status).toBe(400);
+        });
 	});
-
-    it("should return 400 when ID parameter is missing", async () => {
-        //Arrange missing ID parameter
-
-        //Act
-        const response = await request(app).get("/api/v1/branches/");
-
-        //Assert
-        expect(response.status).toBe(400);
-    });
 });
