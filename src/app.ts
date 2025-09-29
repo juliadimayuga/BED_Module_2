@@ -6,6 +6,7 @@ import branchRoute from "../src/api/v1/routes/branchRoute";
 const app: Express = express();
 
 app.use(morgan("combined"));
+app.use(express.json());
 
 app.get("/api/v1/health", (req, res) => {
     res.json({
