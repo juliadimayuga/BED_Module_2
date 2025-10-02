@@ -12,7 +12,7 @@
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "noImplicitThis": true,
-        "noUnusedParameters": true,
+        "noUnusedParameters": false,
         "noUnusedLocals": true,
         "alwaysStrict": true,
         "baseUrl": "./",
