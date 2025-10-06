@@ -65,7 +65,7 @@ export const getBranchById = async (req: Request, res: Response
             });
         }
         else{
-            res.status(400).json({message: "Branch not found."});
+            res.status(404).json({message: "Branch not found."});
         }
     }
     catch (error){
@@ -82,9 +82,14 @@ export const updateBranch = async (req: Request, res: Response
 ): Promise<void> => {
     try{
         const {id} = req.params;
-        const updatedData = req.body;
+        const {name, address, phone} = req.body;
+        if (!name || !address || !phone){
+            res.status(400).json({ message: "Missing field."});
+            return;
+        }
         const updatedBranch = 
-            await branchService.updateBranch(Number(id), updatedData);
+            await branchService.updateBranch(Number(id), 
+            {name, address, phone});
         if (updatedBranch){
             res.status(200).json({
                 message: "Branch updated successfully.", 
@@ -92,7 +97,7 @@ export const updateBranch = async (req: Request, res: Response
             });
         }
         else{
-            res.status(400).json({message: "Branch not found."});
+            res.status(404).json({message: "Branch not found."});
         }
     }
     catch (error){
@@ -114,7 +119,7 @@ export const deleteBranch = async (req: Request, res: Response
             res.status(200).json({message: "Branch deleted successfully."});
         }
         else{
-            res.status(400).json({message: "Branch not found"});
+            res.status(404).json({message: "Branch not found"});
         }
     }
     catch (error){

@@ -68,7 +68,7 @@ export const getEmployeeById = async (req: Request, res: Response
             });
         }
         else{
-            res.status(400).json({message: "Employee not found."});
+            res.status(404).json({message: "Employee not found."});
         }
     }
     catch (error){
@@ -85,9 +85,14 @@ export const updateEmployee = async (req: Request, res: Response
 ): Promise<void> => {
     try{
         const {id} = req.params;
-        const updatedData = req.body;
+        const {name, position, department, email, phone, branchId} = req.body;
+        if (!name || ! position || !department || !email ||  !phone || branchId == null){
+            res.status(400).json({ message: "Missing field."});
+            return;
+        }
         const updatedEmployee = 
-            await employeeService.updateEmployee(Number(id), updatedData);
+            await employeeService.updateEmployee(Number(id), 
+            {name, position, department, email, phone, branchId});
         if (updatedEmployee){
             res.status(200).json({
                 message: "Employee updated successfully.", 
@@ -95,7 +100,7 @@ export const updateEmployee = async (req: Request, res: Response
             });
         }
         else{
-            res.status(400).json({message: "Employee not found."});
+            res.status(404).json({message: "Employee not found."});
         }
     }
     catch (error){
@@ -117,7 +122,7 @@ export const deleteEmployee = async (req: Request, res: Response
             res.status(200).json({message: "Employee deleted successfully."});
         }
         else{
-            res.status(400).json({message: "Employee not found"});
+            res.status(404).json({message: "Employee not found"});
         }
     }
     catch (error){
@@ -136,7 +141,7 @@ export const getAllEmployeesFromBranch = async (req: Request, res: Response
         const {branchId} = req.params;
 
         if (!branchId){
-            res.status(400).json({message: "Branch not found."});
+            res.status(404).json({message: "Branch not found."});
             return;
         }
         const employeesFromBranch = await employeeService.getAllEmployeesFromBranch(Number(branchId));
@@ -163,7 +168,7 @@ export const getAllEmployeesFromDepartment = async (req: Request, res: Response
         const {department} = req.params;
 
         if (!department){
-            res.status(400).json({message: "Department not found."});
+            res.status(404).json({message: "Department not found."});
             return;
         }
         const employeesFromDepartment = await employeeService.getAllEmployeesFromDepartment(department);
