@@ -8,13 +8,14 @@ import {
     getAllEmployeesFromBranch,
     getAllEmployeesFromDepartment
 } from "../controllers/employeeController";
+import { validateCreateEmployee } from "../middleware/validatorMiddleware";
 
 const router: Router = express.Router();
 
 router.get("/employees", getAllEmployees);
 router.get("/employees/:id", getEmployeeById);
-router.post("/employees", createEmployee);
-router.put("/employees/:id", updateEmployee);
+router.post("/employees", validateCreateEmployee, createEmployee);
+router.put("/employees/:id", validateCreateEmployee, updateEmployee);
 router.delete("/employees/:id", deleteEmployee);
 router.get("/employees/branch/:branchId", getAllEmployeesFromBranch);
 router.get("/employees/department/:department", getAllEmployeesFromDepartment);
