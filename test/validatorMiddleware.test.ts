@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { validateCreateEmployee, validateCreateBranch } from "src/api/v1/middleware/validatorMiddleware";
-import Joi from "joi";
 
 describe("validateCreateEmployee Middleware", () => {
     let mockReq: Partial<Request>;
