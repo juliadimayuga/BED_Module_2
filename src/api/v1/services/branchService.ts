@@ -53,16 +53,20 @@ export const getBranchById = async (id: number): Promise<Branch | null> => {
  * Creates a new branch
  * @param branchData - Only the fields needed to create a branch
  * @returns The created branch
+ * @throws {Error} - If an error occurs during the branch creation
  */
 export const createBranch = async (branchData: Omit<Branch, "id">): Promise<Branch> => {
-    const newBranch: Branch = {
-        id: Date.now(),
-        name: branchData.name,
-        address: branchData.address,
-        phone: branchData.phone
-    }
-    branches.push(newBranch);
-    return newBranch;
+    try{
+            const id = await firestoreRepository.createDocument(
+                BRANCHES_COLLECTION,
+                branchData
+            );
+            return {id: Number(id), ...branchData};
+        }
+        catch (error:unknown){
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
+            throw new Error(`Failed to create branch: ${errorMessage}`);
+        }
 };
 
 /**
