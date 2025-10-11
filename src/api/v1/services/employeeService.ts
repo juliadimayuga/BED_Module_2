@@ -31,7 +31,7 @@ export const getAllEmployees = async (): Promise<Employee[]> => {
  * Retrieves employee by ID
  * @param id - The id of the employee to retrieve
  * @returns The employee that was retrieved or null if not found
- * @throws {Error} - If an error occurs during document update.
+ * @throws {Error} - If an error occurs during the employee retrieval
  */
 export const getEmployeeById = async (id: number): Promise<Employee | null> => {
     try{
@@ -46,7 +46,7 @@ export const getEmployeeById = async (id: number): Promise<Employee | null> => {
     }
     catch (error:unknown){
         const errorMessage = error instanceof Error ? error.message : "Unknown error";
-        throw new Error(`Failed to update employee ${id}: ${errorMessage}`);
+        throw new Error(`Failed to get employee ${id}: ${errorMessage}`);
     }
 };
 
@@ -54,20 +54,21 @@ export const getEmployeeById = async (id: number): Promise<Employee | null> => {
  * Creates a new employee
  * @param employeeData - Only the fields needed to create an employee
  * @returns The created employee
+ * @throws {Error} - If an error occurs during the employee creation
  */
 export const createEmployee = async (employeeData: Omit<Employee, "id">
 ): Promise<Employee> => {
-    const newEmployee: Employee = {
-        id: Date.now(),
-        name: employeeData.name,
-        position: employeeData.position,
-        department: employeeData.department,
-        email: employeeData.email,
-        phone: employeeData.phone,
-        branchId: employeeData.branchId
+    try{
+        const id = await firestoreRepository.createDocument(
+            EMPLOYEES_COLLECTION,
+            employeeData
+        );
+        return {id: Number(id), ...employeeData};
     }
-    employees.push(newEmployee);
-    return newEmployee;
+    catch (error:unknown){
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Failed to create employee: ${errorMessage}`);
+    }
 };
 
 /**
