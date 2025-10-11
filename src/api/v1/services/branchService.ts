@@ -1,12 +1,30 @@
 import {Branch, branches} from "../../../data/branches";
+import * as firestoreRepository from "../repositories/firestoreRepository"
 
+
+const BRANCHES_COLLECTION = "branches";
 
 /**
  * Retrieves all branches
  * @returns Array of all branches
+ * @throws {Error} - If an error occurs during retrieval of branches
  */
 export const getAllBranches = async (): Promise<Branch[]> => {
-    return structuredClone(branches);
+    try{
+            const snapshot = await firestoreRepository.getDocuments(BRANCHES_COLLECTION);
+            const branches: Branch[] = snapshot.docs.map(doc => ({
+                id: Number(doc.id), 
+                ...(doc.data() as Omit<Branch, "id">)
+            }));
+            return branches;
+        }
+        catch (error: unknown) {
+            const errorMessage =
+                error instanceof Error ? error.message : "Unknown error";
+            throw new Error(
+                `Failed to get branches: ${errorMessage}`
+            );
+        }
 };
 
 /**
