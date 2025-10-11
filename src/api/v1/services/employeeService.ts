@@ -49,18 +49,28 @@ export const createEmployee = async (employeeData: Omit<Employee, "id">
  * Updates an existing employee
  * @param id - The ID of the employee to update
  * @param employeeData - Only fields that can be updated
+ * @returns The updated employee or null if not found
  * @throws {Error} - If an error occurs during document update.
  */
 export const updateEmployee = async (
     id: number,
     employeeData: Pick<Employee, "name" | "position" | "department" | "email" | "phone" | "branchId">
-): Promise<void> => {
+): Promise<Employee | null> => {
     try{
+        const doc = await firestoreRepository.getDocumentById(
+            EMPLOYEES_COLLECTION,
+            id.toString()
+        );
+        if (!doc?.exists){
+            return null
+        }
+
         await firestoreRepository.updateDocument(
             EMPLOYEES_COLLECTION,
             id.toString(),
             employeeData
         );
+        return {id, ...(employeeData as Omit<Employee, "id">)};
     }
     catch (error:unknown){
         const errorMessage = error instanceof Error ? error.message : "Unknown error";
