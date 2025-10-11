@@ -1,4 +1,8 @@
-import {Employee, employees} from "../../../data/employees"
+import {Employee} from "../models/employeeModel";
+import * as firestoreRepository from "../repositories/firestoreRepository"
+
+
+const EMPLOYEES_COLLECTION = "employees";
 
 /**
  * Retrieves all employees
@@ -45,24 +49,23 @@ export const createEmployee = async (employeeData: Omit<Employee, "id">
  * Updates an existing employee
  * @param id - The ID of the employee to update
  * @param employeeData - Only fields that can be updated
- * @returns The updated employee or undefined if not found
+ * @throws {Error} - If an error occurs during document update.
  */
 export const updateEmployee = async (
     id: number,
     employeeData: Pick<Employee, "name" | "position" | "department" | "email" | "phone" | "branchId">
-): Promise<Employee | undefined> => {
-    const index: number = employees.findIndex((employee: Employee) => employee.id === id);
-
-    if (index === -1){
-        return undefined;
+): Promise<void> => {
+    try{
+        await firestoreRepository.updateDocument(
+            EMPLOYEES_COLLECTION,
+            id.toString(),
+            employeeData
+        );
     }
-
-    employees[index] = {
-        ...employees[index],
-        ...employeeData,
-    };
-
-    return structuredClone(employees[index]);
+    catch (error:unknown){
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Failed to update employee ${id}: ${errorMessage}`);
+    }
 };
 
 /**
