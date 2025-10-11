@@ -76,7 +76,7 @@ export const createEmployee = async (employeeData: Omit<Employee, "id">
  * @param id - The ID of the employee to update
  * @param employeeData - Only fields that can be updated
  * @returns The updated employee or null if not found
- * @throws {Error} - If an error occurs during document update.
+ * @throws {Error} - If an error occurs during employee update
  */
 export const updateEmployee = async (
     id: number,
