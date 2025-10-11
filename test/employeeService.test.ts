@@ -85,18 +85,17 @@ describe('Employee Service', () => {
                 phone: "204-123-4567", 
                 branchId: 1
             };
-            const createdEmployee = {
-                id: "1",
-                ...newEmployee
-            };
-            (repositoryModule.createDocument as jest.Mock).mockResolvedValue(createdEmployee);
+            (repositoryModule.createDocument as jest.Mock).mockResolvedValue("1");
 
             // Act
             const result = await serviceModule.createEmployee(newEmployee);
 
             // Assert
             expect(repositoryModule.createDocument).toHaveBeenCalledWith("employees", newEmployee);
-            expect(result).toEqual(createdEmployee);
+            expect(result).toEqual({
+                id: 1,
+                ...newEmployee
+            });
         });
     });
 
