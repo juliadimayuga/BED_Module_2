@@ -73,18 +73,17 @@ describe('Branch Service', () => {
                 address: "New Address",
                 phone: "204-123-4567"
             };
-            const createdBranch = {
-                id: "1",
-                ...newBranch
-            };
-            (repositoryModule.createDocument as jest.Mock).mockResolvedValue(createdBranch);
+            (repositoryModule.createDocument as jest.Mock).mockResolvedValue("1");
 
             // Act
             const result = await serviceModule.createBranch(newBranch);
 
             // Assert
             expect(repositoryModule.createDocument).toHaveBeenCalledWith("branches", newBranch);
-            expect(result).toEqual(createdBranch);
+            expect(result).toEqual({
+                id: 1,
+                ...newBranch
+            });
         });
     });
 
