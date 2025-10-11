@@ -132,7 +132,6 @@ describe('Employee Service', () => {
             const mockEmployee = {
                 id: "2",
                 data: () => ({
-                    id: 2, 
                     name: "Amandeep Singh", 
                     position: "Customer Service Representative", 
                     department: "Customer Service", 
