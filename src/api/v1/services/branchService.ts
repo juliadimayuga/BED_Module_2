@@ -29,15 +29,24 @@ export const getAllBranches = async (): Promise<Branch[]> => {
 
 /**
  * Retrieves branch by ID
- * @returns The branch that was retrieved or undefined if not found
+ * @returns The branch that was retrieved or null if not found
+ * @throws {Error} - If an error occurs during the branch retrieval
  */
-export const getBranchById = async (id: number): Promise<Branch | undefined> => {
-    for (const branch of branches){
-        if (branch.id === id){
-            return structuredClone(branch);
+export const getBranchById = async (id: number): Promise<Branch | null> => {
+    try{
+            const doc = await firestoreRepository.getDocumentById(
+                BRANCHES_COLLECTION,
+                id.toString()
+            );
+            if (!doc){
+                return null
+            }
+            return {id, ...(doc.data() as Omit<Branch, "id">)};
         }
-    }
-    return undefined;
+        catch (error:unknown){
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
+            throw new Error(`Failed to get branch ${id}: ${errorMessage}`);
+        }
 };
 
 /**
