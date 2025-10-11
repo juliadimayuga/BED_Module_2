@@ -107,7 +107,7 @@ export const updateEmployee = async (
 /**
  * Deletes an employee
  * @param id - The ID of the employee to delete
- * @returns The confirmation if the employee was deleted or undefined if not found
+ * @returns True if the employee was deleted successfully or null if not found
  * @throws {Error} - If an error occurs during employee deletion
  */
 export const deleteEmployee = async (id: number
@@ -167,16 +167,27 @@ export const getAllEmployeesFromBranch = async (branchId: number
  * Retrieves all employees from a department
  * @param department - The specified department
  * @returns An array of all the employees from that department
+ * @throws {Error} - If an error occurs during employee retrieval
  */
 export const getAllEmployeesFromDepartment = async (department: string
-): Promise<Employee[]> => {
-    const employeesFromDepartment: Employee[] = [];
-
-    for (const employee of employees){
-        if (employee.department === department){
-            employeesFromDepartment.push(structuredClone(employee));
+): Promise<Employee[]> => {try{
+        const snapshot = await firestoreRepository.getDocuments(EMPLOYEES_COLLECTION);
+        const employeesFromDepartment: Employee[] = []
+        for (const doc of snapshot.docs){
+            const employee = {
+                id: Number(doc.id), 
+                ...(doc.data() as Omit<Employee, "id">)};
+                if (employee.department === department){
+                    employeesFromDepartment.push(employee);
+                }
         }
+        return employeesFromDepartment;
     }
-
-    return employeesFromDepartment;
+    catch (error: unknown){
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to get employees from department ${department}: ${errorMessage}`
+        );
+    }
 };
