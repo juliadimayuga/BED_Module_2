@@ -103,18 +103,7 @@ describe('Employee Service', () => {
     describe('updateEmployee', () => {
         it('should update an employee successfully', async () => {
             // Arrange
-            const mockEmployee = {
-                id: "1",
-                data: () => ({
-                    name: "Alice Johnson", 
-                    position: "Branch Manager", 
-                    department: "Management", 
-                    email: "alice.johnson@pixell-river.com", 
-                    phone: "604-555-0148", 
-                    branchId: 1
-                })
-            };
-            const updatedEmployee = {
+            const updatedData = {
                 name: "Updated Name", 
                 position: "Updated Position", 
                 department: "Updated Department", 
@@ -122,18 +111,18 @@ describe('Employee Service', () => {
                 phone: "204-123-4567", 
                 branchId: 2
             };
-            (repositoryModule.getDocumentById as jest.Mock).mockResolvedValue(mockEmployee);
-            (repositoryModule.updateDocument as jest.Mock).mockResolvedValue(null);
+            const updatedEmployee = {
+                id: 1,
+                ...updatedData
+            };
+            (repositoryModule.updateDocument as jest.Mock).mockResolvedValue(updatedEmployee);
 
             // Act
-            const result = await serviceModule.updateEmployee(1, updatedEmployee);
+            const result = await serviceModule.updateEmployee(1, updatedData);
 
             // Assert
-            expect(repositoryModule.updateDocument).toHaveBeenCalledWith("employees", "1", updatedEmployee);
-            expect(result).toEqual({
-                id: 1, 
-                ...updatedEmployee
-            });
+            expect(repositoryModule.updateDocument).toHaveBeenCalledWith("employees", "1", updatedData);
+            expect(result).toEqual(updatedEmployee);
         });
     });
 
