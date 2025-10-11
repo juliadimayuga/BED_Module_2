@@ -77,33 +77,26 @@ describe('Employee Service', () => {
     describe('createEmployee', () => {
         it('should create an employee successfully', async () => {
             // Arrange
-            const mockEmployee = {
-                id: "1",
-                data: () => ({
-                    name: "Alice Johnson", 
-                    position: "Branch Manager", 
-                    department: "Management", 
-                    email: "alice.johnson@pixell-river.com", 
-                    phone: "604-555-0148", 
-                    branchId: 1
-                })
+            const newEmployee = {
+                name: "New Employee", 
+                position: "New Position", 
+                department: "New Department", 
+                email: "new.employee@pixell-river.com", 
+                phone: "204-123-4567", 
+                branchId: 1
             };
-            (repositoryModule.getDocumentById as jest.Mock).mockResolvedValue(mockEmployee);
+            const createdEmployee = {
+                id: "1",
+                ...newEmployee
+            };
+            (repositoryModule.createDocument as jest.Mock).mockResolvedValue(createdEmployee);
 
             // Act
-            const result = await serviceModule.getEmployeeById(1);
+            const result = await serviceModule.createEmployee(newEmployee);
 
             // Assert
-            expect(repositoryModule.getDocumentById).toHaveBeenCalledWith("employees", "1");
-            expect(result).toEqual({
-                id: 1, 
-                name: "Alice Johnson", 
-                position: "Branch Manager", 
-                department: "Management", 
-                email: "alice.johnson@pixell-river.com", 
-                phone: "604-555-0148", 
-                branchId: 1
-            });
+            expect(repositoryModule.createDocument).toHaveBeenCalledWith("employees", newEmployee);
+            expect(result).toEqual(createdEmployee);
         });
     });
 
