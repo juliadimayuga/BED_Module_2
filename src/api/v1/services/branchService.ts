@@ -73,24 +73,33 @@ export const createBranch = async (branchData: Omit<Branch, "id">): Promise<Bran
  * Updates an existing branch
  * @param id - The ID of the branch to update
  * @param branchData - Only fields that can be updated
- * @returns The updated branch or undefined if not found
+ * @returns The updated branch or null if not found
+ * @throws {Error} - If an error occurs during document update
  */
 export const updateBranch = async (
     id: number,
     branchData: Pick<Branch, "name" | "address" | "phone">
-): Promise<Branch | undefined> => {
-    const index: number = branches.findIndex((branch: Branch) => branch.id === id);
-
-    if (index === -1){
-        return undefined;
-    }
-
-    branches[index] = {
-        ...branches[index],
-        ...branchData,
-    };
-
-    return structuredClone(branches[index]);
+): Promise<Branch | null> => {
+    try{
+            const doc = await firestoreRepository.getDocumentById(
+                BRANCHES_COLLECTION,
+                id.toString()
+            );
+            if (!doc){
+                return null
+            }
+    
+            await firestoreRepository.updateDocument(
+                BRANCHES_COLLECTION,
+                id.toString(),
+                branchData
+            );
+            return {id, ...(branchData as Omit<Branch, "id">)};
+        }
+        catch (error:unknown){
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
+            throw new Error(`Failed to update branch ${id}: ${errorMessage}`);
+        }
 };
 
 /**
