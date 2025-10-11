@@ -9,7 +9,20 @@ const EMPLOYEES_COLLECTION = "employees";
  * @returns Array of all employees
  */
 export const getAllEmployees = async (): Promise<Employee[]> => {
-    return structuredClone(employees);
+    try{
+        const snapshot = await firestoreRepository.getDocuments(EMPLOYEES_COLLECTION);
+        return snapshot.docs.map(doc => ({
+            id: Number(doc.id), 
+            ...(doc.data() as Omit<Employee, "id">)
+        }));
+    }
+    catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to get employees: ${errorMessage}`
+        );
+    }
 };
 
 /**
