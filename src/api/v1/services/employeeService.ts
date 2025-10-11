@@ -7,14 +7,16 @@ const EMPLOYEES_COLLECTION = "employees";
 /**
  * Retrieves all employees
  * @returns Array of all employees
+ * @throws {Error} - If an error occurs during retrieval of employees
  */
 export const getAllEmployees = async (): Promise<Employee[]> => {
     try{
         const snapshot = await firestoreRepository.getDocuments(EMPLOYEES_COLLECTION);
-        return snapshot.docs.map(doc => ({
+        const employees: Employee[] = snapshot.docs.map(doc => ({
             id: Number(doc.id), 
             ...(doc.data() as Omit<Employee, "id">)
         }));
+        return employees;
     }
     catch (error: unknown) {
         const errorMessage =
@@ -27,15 +29,25 @@ export const getAllEmployees = async (): Promise<Employee[]> => {
 
 /**
  * Retrieves employee by ID
- * @returns The employee that was retrieved or undefined if not found
+ * @param id - The id of the employee to retrieve
+ * @returns The employee that was retrieved or null if not found
+ * @throws {Error} - If an error occurs during document update.
  */
-export const getEmployeeById = async (id: number): Promise<Employee | undefined> => {
-    for (const employee of employees){
-        if (employee.id === id){
-            return structuredClone(employee);
+export const getEmployeeById = async (id: number): Promise<Employee | null> => {
+    try{
+        const doc = await firestoreRepository.getDocumentById(
+            EMPLOYEES_COLLECTION,
+            id.toString()
+        );
+        if (!doc?.exists){
+            return null
         }
+        return {id, ...(doc.data() as Omit<Employee, "id">)};
     }
-    return undefined;
+    catch (error:unknown){
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Failed to update employee ${id}: ${errorMessage}`);
+    }
 };
 
 /**
