@@ -39,7 +39,7 @@ export const getEmployeeById = async (id: number): Promise<Employee | null> => {
             EMPLOYEES_COLLECTION,
             id.toString()
         );
-        if (!doc?.exists){
+        if (!doc){
             return null
         }
         return {id, ...(doc.data() as Omit<Employee, "id">)};
@@ -87,7 +87,7 @@ export const updateEmployee = async (
             EMPLOYEES_COLLECTION,
             id.toString()
         );
-        if (!doc?.exists){
+        if (!doc){
             return null
         }
 
@@ -108,17 +108,29 @@ export const updateEmployee = async (
  * Deletes an employee
  * @param id - The ID of the employee to delete
  * @returns The confirmation if the employee was deleted or undefined if not found
+ * @throws {Error} - If an error occurs during employee deletion
  */
 export const deleteEmployee = async (id: number
-): Promise<string | undefined> => {
-    const index: number = employees.findIndex((employee: Employee) => employee.id === id);
+): Promise<boolean | null> => {
+    try{
+        const doc = await firestoreRepository.getDocumentById(
+            EMPLOYEES_COLLECTION,
+            id.toString()
+        );
+        if (!doc){
+            return null
+        }
 
-    if (index === -1){
-        return undefined;
+        await firestoreRepository.deleteDocument(
+            EMPLOYEES_COLLECTION,
+            id.toString(),
+        );
+        return true;
     }
-
-    employees.splice(index, 1);
-    return "Employee deleted successfully.";
+    catch (error:unknown){
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Failed to delete employee ${id}: ${errorMessage}`);
+    }
 };
 
 /**
