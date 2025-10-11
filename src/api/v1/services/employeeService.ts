@@ -137,18 +137,30 @@ export const deleteEmployee = async (id: number
  * Retrieves all employees from a branch
  * @param branchId - The specified branch
  * @returns An array of all the employees from that branch
+ * @throws {Error} - If an error occurs during employee retrieval
  */
 export const getAllEmployeesFromBranch = async (branchId: number
 ): Promise<Employee[]> => {
-    const employeesFromBranch: Employee[] = [];
-
-    for (const employee of employees){
-        if (employee.branchId === branchId){
-            employeesFromBranch.push(structuredClone(employee));
+    try{
+        const snapshot = await firestoreRepository.getDocuments(EMPLOYEES_COLLECTION);
+        const employeesFromBranch: Employee[] = []
+        for (const doc of snapshot.docs){
+            const employee = {
+                id: Number(doc.id), 
+                ...(doc.data() as Omit<Employee, "id">)};
+                if (employee.branchId === branchId){
+                    employeesFromBranch.push(employee);
+                }
         }
+        return employeesFromBranch;
     }
-
-    return employeesFromBranch;
+    catch (error: unknown){
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to get employees from branch ${branchId}: ${errorMessage}`
+        );
+    }
 };
 
 /**
