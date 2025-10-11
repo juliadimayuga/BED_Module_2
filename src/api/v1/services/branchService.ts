@@ -1,4 +1,4 @@
-import {Branch, branches} from "../../../data/branches";
+import {Branch} from "../../../data/branches";
 import * as firestoreRepository from "../repositories/firestoreRepository"
 
 
@@ -105,15 +105,27 @@ export const updateBranch = async (
 /**
  * Deletes a branch
  * @param id - The ID of the branch to delete
- * @returns The confirmation if the branch was deleted or undefined if not found
+ * @returns True if the branch was deleted successfully or null if not found
+ * @throws {Error} - If an error occurs during branch deletion
  */
-export const deleteBranch = async (id: number): Promise<string | undefined> => {
-    const index: number = branches.findIndex((branch: Branch) => branch.id === id);
-
-    if (index === -1){
-        return undefined;
-    }
-
-    branches.splice(index, 1);
-    return "Branch deleted successfully.";
+export const deleteBranch = async (id: number): Promise<boolean | null> => {
+    try{
+            const doc = await firestoreRepository.getDocumentById(
+                BRANCHES_COLLECTION,
+                id.toString()
+            );
+            if (!doc){
+                return null
+            }
+    
+            await firestoreRepository.deleteDocument(
+                BRANCHES_COLLECTION,
+                id.toString(),
+            );
+            return true;
+        }
+        catch (error:unknown){
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
+            throw new Error(`Failed to delete branch ${id}: ${errorMessage}`);
+        }
 };
