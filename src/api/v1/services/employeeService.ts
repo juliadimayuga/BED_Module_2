@@ -59,9 +59,11 @@ export const getEmployeeById = async (id: number): Promise<Employee | null> => {
 export const createEmployee = async (employeeData: Omit<Employee, "id">
 ): Promise<Employee> => {
     try{
-        const id = await firestoreRepository.createDocument(
+        const id = Date.now();
+        await firestoreRepository.createDocument(
             EMPLOYEES_COLLECTION,
-            employeeData
+            employeeData,
+            id.toString()
         );
         return {id: Number(id), ...employeeData};
     }
