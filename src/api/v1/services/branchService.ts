@@ -11,20 +11,20 @@ const BRANCHES_COLLECTION = "branches";
  */
 export const getAllBranches = async (): Promise<Branch[]> => {
     try{
-            const snapshot = await firestoreRepository.getDocuments(BRANCHES_COLLECTION);
-            const branches: Branch[] = snapshot.docs.map(doc => ({
-                id: Number(doc.id), 
-                ...(doc.data() as Omit<Branch, "id">)
-            }));
-            return branches;
-        }
-        catch (error: unknown) {
-            const errorMessage =
-                error instanceof Error ? error.message : "Unknown error";
-            throw new Error(
-                `Failed to get branches: ${errorMessage}`
-            );
-        }
+        const snapshot = await firestoreRepository.getDocuments(BRANCHES_COLLECTION);
+        const branches: Branch[] = snapshot.docs.map(doc => ({
+            id: Number(doc.id), 
+            ...(doc.data() as Omit<Branch, "id">)
+        }));
+        return branches;
+    }
+    catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to get branches: ${errorMessage}`
+        );
+    }
 };
 
 /**
@@ -34,19 +34,19 @@ export const getAllBranches = async (): Promise<Branch[]> => {
  */
 export const getBranchById = async (id: number): Promise<Branch | null> => {
     try{
-            const doc = await firestoreRepository.getDocumentById(
-                BRANCHES_COLLECTION,
-                id.toString()
-            );
-            if (!doc){
-                return null
-            }
-            return {id, ...(doc.data() as Omit<Branch, "id">)};
+        const doc = await firestoreRepository.getDocumentById(
+            BRANCHES_COLLECTION,
+            id.toString()
+        );
+        if (!doc){
+            return null
         }
-        catch (error:unknown){
-            const errorMessage = error instanceof Error ? error.message : "Unknown error";
-            throw new Error(`Failed to get branch ${id}: ${errorMessage}`);
-        }
+        return {id, ...(doc.data() as Omit<Branch, "id">)};
+    }
+    catch (error:unknown){
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Failed to get branch ${id}: ${errorMessage}`);
+    }
 };
 
 /**
@@ -57,16 +57,18 @@ export const getBranchById = async (id: number): Promise<Branch | null> => {
  */
 export const createBranch = async (branchData: Omit<Branch, "id">): Promise<Branch> => {
     try{
-            const id = await firestoreRepository.createDocument(
-                BRANCHES_COLLECTION,
-                branchData
-            );
-            return {id: Number(id), ...branchData};
-        }
-        catch (error:unknown){
-            const errorMessage = error instanceof Error ? error.message : "Unknown error";
-            throw new Error(`Failed to create branch: ${errorMessage}`);
-        }
+        const id = Date.now();
+        await firestoreRepository.createDocument(
+            BRANCHES_COLLECTION,
+            branchData,
+            id.toString()
+        );
+        return {id: Number(id), ...branchData};
+    }
+    catch (error:unknown){
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Failed to create branch: ${errorMessage}`);
+    }
 };
 
 /**
@@ -81,25 +83,25 @@ export const updateBranch = async (
     branchData: Pick<Branch, "name" | "address" | "phone">
 ): Promise<Branch | null> => {
     try{
-            const doc = await firestoreRepository.getDocumentById(
-                BRANCHES_COLLECTION,
-                id.toString()
-            );
-            if (!doc){
-                return null
-            }
-    
-            await firestoreRepository.updateDocument(
-                BRANCHES_COLLECTION,
-                id.toString(),
-                branchData
-            );
-            return {id, ...(branchData as Omit<Branch, "id">)};
+        const doc = await firestoreRepository.getDocumentById(
+            BRANCHES_COLLECTION,
+            id.toString()
+        );
+        if (!doc){
+            return null
         }
-        catch (error:unknown){
-            const errorMessage = error instanceof Error ? error.message : "Unknown error";
-            throw new Error(`Failed to update branch ${id}: ${errorMessage}`);
-        }
+
+        await firestoreRepository.updateDocument(
+            BRANCHES_COLLECTION,
+            id.toString(),
+            branchData
+        );
+        return {id, ...(branchData as Omit<Branch, "id">)};
+    }
+    catch (error:unknown){
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Failed to update branch ${id}: ${errorMessage}`);
+    }
 };
 
 /**
@@ -110,22 +112,22 @@ export const updateBranch = async (
  */
 export const deleteBranch = async (id: number): Promise<boolean | null> => {
     try{
-            const doc = await firestoreRepository.getDocumentById(
-                BRANCHES_COLLECTION,
-                id.toString()
-            );
-            if (!doc){
-                return null
-            }
-    
-            await firestoreRepository.deleteDocument(
-                BRANCHES_COLLECTION,
-                id.toString(),
-            );
-            return true;
+        const doc = await firestoreRepository.getDocumentById(
+            BRANCHES_COLLECTION,
+            id.toString()
+        );
+        if (!doc){
+            return null
         }
-        catch (error:unknown){
-            const errorMessage = error instanceof Error ? error.message : "Unknown error";
-            throw new Error(`Failed to delete branch ${id}: ${errorMessage}`);
-        }
+
+        await firestoreRepository.deleteDocument(
+            BRANCHES_COLLECTION,
+            id.toString(),
+        );
+        return true;
+    }
+    catch (error:unknown){
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Failed to delete branch ${id}: ${errorMessage}`);
+    }
 };
