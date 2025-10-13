@@ -111,7 +111,7 @@ export const updateBranch = async (req: Request, res: Response
             {name, address, phone});
         if (updatedBranch){
             res.status(200).json(successResponse(
-                null,
+                updatedBranch,
                 "Branch updated successfully."
             ));
         }
