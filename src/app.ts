@@ -1,4 +1,8 @@
 import express, { Express } from "express";
+
+import dotenv from "dotenv";
+dotenv.config();
+
 import morgan from "morgan";
 import employeeRoute from "../src/api/v1/routes/employeeRoute";
 import branchRoute from "../src/api/v1/routes/branchRoute";
