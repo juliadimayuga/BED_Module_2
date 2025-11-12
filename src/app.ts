@@ -3,11 +3,33 @@ import express, { Express } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 
+import {getHelmetConfig} from "../config/helmetConfig";
+
 import morgan from "morgan";
 import employeeRoute from "../src/api/v1/routes/employeeRoute";
 import branchRoute from "../src/api/v1/routes/branchRoute";
 
 const app: Express = express();
+
+app.use(getHelmetConfig());
+
+// Add custom security headers
+app.use((req, res, next) => {
+    // Prevent caching of sensitive endpoints
+    if (req.path.includes("/admin") || req.path.includes("/user")) {
+        res.setHeader(
+            "Cache-Control",
+            "no-store, no-cache, must-revalidate, private"
+        );
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Expires", "0");
+    }
+
+    // Add rate limiting information
+    res.setHeader("X-RateLimit-Policy", "100-per-hour");
+
+    next();
+});
 
 app.use(morgan("combined"));
 app.use(express.json());
