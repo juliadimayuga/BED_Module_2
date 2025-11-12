@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import {getHelmetConfig} from "../config/helmetConfig";
+import cors from "cors";
+import {publicCorsOptions} from "../config/corsConfig"
 
 import morgan from "morgan";
 import employeeRoute from "../src/api/v1/routes/employeeRoute";
@@ -12,6 +14,8 @@ import branchRoute from "../src/api/v1/routes/branchRoute";
 const app: Express = express();
 
 app.use(getHelmetConfig());
+app.use("/api/v1/health", cors(publicCorsOptions));
+app.use("/api-docs", cors(publicCorsOptions));
 
 // Add custom security headers
 app.use((req, res, next) => {
