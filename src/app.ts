@@ -11,6 +11,8 @@ import morgan from "morgan";
 import employeeRoute from "../src/api/v1/routes/employeeRoute";
 import branchRoute from "../src/api/v1/routes/branchRoute";
 
+import setupSwagger from "../config/swagger";
+
 const app: Express = express();
 
 app.use(getHelmetConfig());
@@ -49,5 +51,7 @@ app.get("/api/v1/health", (req, res) => {
 
 app.use("/api/v1", employeeRoute);
 app.use("/api/v1", branchRoute);
+
+setupSwagger(app);
 
 export default app;
