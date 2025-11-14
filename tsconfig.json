@@ -2,6 +2,8 @@
     "compilerOptions": {
         "target": "ES6",
         "module": "commonjs",
+        "types": ["node"],
+        "moduleResolution": "node",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
@@ -20,6 +22,6 @@
             "*": ["*"]
         }
     },
-    "include": ["src/**/*", "test/**/*", "config/**/*"],
+    "include": ["src/**/*", "test/**/*", "config/**/*", "scripts"],
     "exclude": ["node_modules", "dist"]
 }
