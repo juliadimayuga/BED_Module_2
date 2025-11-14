@@ -16,13 +16,33 @@ const swaggerOptions: swaggerJsdoc.Options = {
             },
         ],
         components: {
-            securitySchemes: {
-                bearerAuth: {
-                    type: "http",
-                    scheme: "bearer",
-                    bearerFormat: "JWT",
-                },
+          securitySchemes: {
+            bearerAuth: {
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT"
+            }
+          },
+          schemas: {
+            Branch: {
+              type: "object",
+              properties: {
+                id: { type: "string" },
+                name: { type: "string" },
+                address: { type: "string" }
+              }
             },
+            Employee: {
+              type: "object",
+              properties: {
+                id: { type: "string" },
+                name: { type: "string" },
+                position: { type: "string" },
+                branchId: { type: "string" },
+                departmentId: { type: "string" }
+              }
+            }
+          }
         },
         security: [
             {
