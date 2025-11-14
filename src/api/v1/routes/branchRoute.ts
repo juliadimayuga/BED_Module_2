@@ -74,6 +74,32 @@ router.get("/branches/:id", getBranchById);
  *         description: Missing field
  */
 router.post("/branches", validateCreateBranch, createBranch);
+
+/**
+ * @openapi
+ * /branches/{id}:
+ *   put:
+ *     summary: Update a branch
+ *     tags: [Branches]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The specific branch's ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/validations/createBranch'
+ *     responses:
+ *       '200':
+ *         description: Branch updated successfully
+ *       '404':
+ *          description: Branch not found
+ */
 router.put("/branches/:id", validateCreateBranch, updateBranch);
 router.delete("/branches/:id", deleteBranch);
 
