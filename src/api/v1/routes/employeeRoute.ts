@@ -103,6 +103,26 @@ router.post("/employees", validateCreateEmployee, createEmployee);
  *          description: Employee not found
  */
 router.put("/employees/:id", validateCreateEmployee, updateEmployee);
+
+/**
+ * @openapi
+ * /employees/{id}:
+ *   delete:
+ *     summary: Delete an employee
+ *     tags: [Employees]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The specific employee's ID
+ *     responses:
+ *       '200':
+ *         description: Employee deleted successfully
+ *       '404':
+ *          description: Employee not found
+ */
 router.delete("/employees/:id", deleteEmployee);
 router.get("/employees/branch/:branchId", getAllEmployeesFromBranch);
 router.get("/employees/department/:department", getAllEmployeesFromDepartment);
