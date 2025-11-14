@@ -25,6 +25,30 @@ const router: Router = express.Router();
  *               type: array
  */
 router.get("/branches", getAllBranches);
+
+/**
+ * @openapi
+ * /branches/{id}:
+ *   get:
+ *     summary: Retrieve a branch by it's ID
+ *     tags: [Branches]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The specific branch's ID
+ *     responses:
+ *       '200':
+ *         description: Branch retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/validations/Branch'
+ *       '404':
+ *          description: Branch not found
+ */
 router.get("/branches/:id", getBranchById);
 router.post("/branches", validateCreateBranch, createBranch);
 router.put("/branches/:id", validateCreateBranch, updateBranch);
