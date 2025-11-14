@@ -23,7 +23,7 @@ import Joi from "joi";
  *           example: "1300 Burrard St, Vancouver, BC, V6Z 2C7"
  *         phone:
  *           type: string
- *           pattern: "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
+ *           pattern: "^[0-9]{3}-[0-9]{3}-[0-9]{4}$"
  *           example: "604-456-0022"
  */
 export const createBranchSchema = Joi.object({
