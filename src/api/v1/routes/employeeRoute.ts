@@ -124,6 +124,30 @@ router.put("/employees/:id", validateCreateEmployee, updateEmployee);
  *          description: Employee not found
  */
 router.delete("/employees/:id", deleteEmployee);
+
+/**
+ * @openapi
+ * /employees/branch/{branchId}:
+ *   get:
+ *     summary: Retrieve employees by their branch
+ *     tags: [Employees]
+ *     parameters:
+ *       - name: branchId
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The specific branch's ID
+ *     responses:
+ *       '200':
+ *         description: Employees retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/validations/Employee'
+ *       '404':
+ *          description: Branch not found
+ */
 router.get("/employees/branch/:branchId", getAllEmployeesFromBranch);
 router.get("/employees/department/:department", getAllEmployeesFromDepartment);
 
