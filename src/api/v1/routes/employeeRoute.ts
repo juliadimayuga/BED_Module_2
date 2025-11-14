@@ -49,7 +49,7 @@ router.get("/employees", getAllEmployees);
  *             schema:
  *               $ref: '#/components/schemas/Employee'
  *       '404':
- *          description: Employee not found
+ *         description: Employee not found
  */
 router.get("/employees/:id", getEmployeeById);
 
@@ -62,9 +62,9 @@ router.get("/employees/:id", getEmployeeById);
  *     requestBody:
  *       required: true
  *       content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/createEmployee'
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Employee'
  *     responses:
  *       '201':
  *         description: Employee created successfully
@@ -93,14 +93,14 @@ router.post("/employees", validateCreateEmployee, createEmployee);
  *     requestBody:
  *       required: true
  *       content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/createEmployee'
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Employee'
  *     responses:
  *       '200':
  *         description: Employee updated successfully
  *       '404':
- *          description: Employee not found
+ *         description: Employee not found
  */
 router.put("/employees/:id", validateCreateEmployee, updateEmployee);
 
@@ -121,7 +121,7 @@ router.put("/employees/:id", validateCreateEmployee, updateEmployee);
  *       '200':
  *         description: Employee deleted successfully
  *       '404':
- *          description: Employee not found
+ *         description: Employee not found
  */
 router.delete("/employees/:id", deleteEmployee);
 
@@ -146,7 +146,7 @@ router.delete("/employees/:id", deleteEmployee);
  *             schema:
  *               $ref: '#/components/schemas/Employee'
  *       '404':
- *          description: Branch not found
+ *         description: Branch not found
  */
 router.get("/employees/branch/:branchId", getAllEmployeesFromBranch);
 
@@ -171,7 +171,7 @@ router.get("/employees/branch/:branchId", getAllEmployeesFromBranch);
  *             schema:
  *               $ref: '#/components/schemas/Employee'
  *       '404':
- *          description: Department not found
+ *         description: Department not found
  */
 router.get("/employees/department/:department", getAllEmployeesFromDepartment);
 

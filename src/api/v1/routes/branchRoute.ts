@@ -47,7 +47,7 @@ router.get("/branches", getAllBranches);
  *             schema:
  *               $ref: '#/components/schemas/Branch'
  *       '404':
- *          description: Branch not found
+ *         description: Branch not found
  */
 router.get("/branches/:id", getBranchById);
 
@@ -60,9 +60,9 @@ router.get("/branches/:id", getBranchById);
  *     requestBody:
  *       required: true
  *       content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/createBranch'
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Branch'
  *     responses:
  *       '201':
  *         description: Branch created successfully
@@ -91,14 +91,14 @@ router.post("/branches", validateCreateBranch, createBranch);
  *     requestBody:
  *       required: true
  *       content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/createBranch'
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Branch'
  *     responses:
  *       '200':
  *         description: Branch updated successfully
  *       '404':
- *          description: Branch not found
+ *         description: Branch not found
  */
 router.put("/branches/:id", validateCreateBranch, updateBranch);
 
@@ -119,7 +119,7 @@ router.put("/branches/:id", validateCreateBranch, updateBranch);
  *       '200':
  *         description: Branch deleted successfully
  *       '404':
- *          description: Branch not found
+ *         description: Branch not found
  */
 router.delete("/branches/:id", deleteBranch);
 
