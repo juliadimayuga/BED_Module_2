@@ -12,6 +12,20 @@ import { validateCreateEmployee } from "../middleware/validatorMiddleware";
 
 const router: Router = express.Router();
 
+/**
+ * @openapi
+ * /employees
+ *   get:
+ *     summary: Retrieve all employees
+ *     tags: [Employees]
+ *     responses:
+ *       '200':
+ *         description: Employees retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ */
 router.get("/employees", getAllEmployees);
 router.get("/employees/:id", getEmployeeById);
 router.post("/employees", validateCreateEmployee, createEmployee);
