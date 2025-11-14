@@ -14,7 +14,7 @@ const router: Router = express.Router();
 
 /**
  * @openapi
- * /employees
+ * /employees:
  *   get:
  *     summary: Retrieve all employees
  *     tags: [Employees]

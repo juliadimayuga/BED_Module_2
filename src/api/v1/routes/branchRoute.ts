@@ -12,7 +12,7 @@ const router: Router = express.Router();
 
 /**
  * @openapi
- * /branches
+ * /branches:
  *   get:
  *     summary: Retrieve all branches
  *     tags: [Branches]
