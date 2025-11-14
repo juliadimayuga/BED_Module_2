@@ -27,6 +27,30 @@ const router: Router = express.Router();
  *               type: array
  */
 router.get("/employees", getAllEmployees);
+
+/**
+ * @openapi
+ * /employees/{id}:
+ *   get:
+ *     summary: Retrieve an employee by their ID
+ *     tags: [Employees]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The specific employee's ID
+ *     responses:
+ *       '200':
+ *         description: Employee retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/validations/Employee'
+ *       '404':
+ *          description: Employee not found
+ */
 router.get("/employees/:id", getEmployeeById);
 router.post("/employees", validateCreateEmployee, createEmployee);
 router.put("/employees/:id", validateCreateEmployee, updateEmployee);
