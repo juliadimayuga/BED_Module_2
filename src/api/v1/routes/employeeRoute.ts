@@ -47,7 +47,7 @@ router.get("/employees", getAllEmployees);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/Employee'
+ *               $ref: '#/components/schemas/Employee'
  *       '404':
  *          description: Employee not found
  */
@@ -64,14 +64,14 @@ router.get("/employees/:id", getEmployeeById);
  *       content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/createEmployee'
+ *               $ref: '#/components/schemas/createEmployee'
  *     responses:
  *       '201':
  *         description: Employee created successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/Employee'
+ *               $ref: '#/components/schemas/Employee'
  *       '400':
  *         description: Missing fields
  */
@@ -95,7 +95,7 @@ router.post("/employees", validateCreateEmployee, createEmployee);
  *       content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/createEmployee'
+ *               $ref: '#/components/schemas/createEmployee'
  *     responses:
  *       '200':
  *         description: Employee updated successfully
@@ -144,7 +144,7 @@ router.delete("/employees/:id", deleteEmployee);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/Employee'
+ *               $ref: '#/components/schemas/Employee'
  *       '404':
  *          description: Branch not found
  */
@@ -169,7 +169,7 @@ router.get("/employees/branch/:branchId", getAllEmployeesFromBranch);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/Employee'
+ *               $ref: '#/components/schemas/Employee'
  *       '404':
  *          description: Department not found
  */

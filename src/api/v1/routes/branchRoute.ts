@@ -45,7 +45,7 @@ router.get("/branches", getAllBranches);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/Branch'
+ *               $ref: '#/components/schemas/Branch'
  *       '404':
  *          description: Branch not found
  */
@@ -62,14 +62,14 @@ router.get("/branches/:id", getBranchById);
  *       content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/createBranch'
+ *               $ref: '#/components/schemas/createBranch'
  *     responses:
  *       '201':
  *         description: Branch created successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/Branch'
+ *               $ref: '#/components/schemas/Branch'
  *       '400':
  *         description: Missing field
  */
@@ -93,7 +93,7 @@ router.post("/branches", validateCreateBranch, createBranch);
  *       content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/createBranch'
+ *               $ref: '#/components/schemas/createBranch'
  *     responses:
  *       '200':
  *         description: Branch updated successfully
