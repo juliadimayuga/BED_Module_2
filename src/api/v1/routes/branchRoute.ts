@@ -101,6 +101,26 @@ router.post("/branches", validateCreateBranch, createBranch);
  *          description: Branch not found
  */
 router.put("/branches/:id", validateCreateBranch, updateBranch);
+
+/**
+ * @openapi
+ * /branches/{id}:
+ *   delete:
+ *     summary: Delete a branch
+ *     tags: [Branches]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The specific branch's ID
+ *     responses:
+ *       '200':
+ *         description: Branch deleted successfully
+ *       '404':
+ *          description: Branch not found
+ */
 router.delete("/branches/:id", deleteBranch);
 
 export default router;
