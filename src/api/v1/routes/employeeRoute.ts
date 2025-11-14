@@ -76,6 +76,32 @@ router.get("/employees/:id", getEmployeeById);
  *         description: Missing fields
  */
 router.post("/employees", validateCreateEmployee, createEmployee);
+
+/**
+ * @openapi
+ * /employees/{id}:
+ *   put:
+ *     summary: Update an employee
+ *     tags: [Employees]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The specific employee's ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/validations/createEmployee'
+ *     responses:
+ *       '200':
+ *         description: Employee updated successfully
+ *       '404':
+ *          description: Employee not found
+ */
 router.put("/employees/:id", validateCreateEmployee, updateEmployee);
 router.delete("/employees/:id", deleteEmployee);
 router.get("/employees/branch/:branchId", getAllEmployeesFromBranch);
